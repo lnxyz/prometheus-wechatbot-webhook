@@ -17,7 +17,7 @@ Run As docker :
 docker run -d --name wechatbot --restart=always \
   -v /etc/localtime:/etc/localtime \
   -v src/wechatbot.tmpl:/apps/wechatbot.tmpl \
-  -p 9080:9080 lckei/promethues-wechatbot-webhook
+  -p 9080:9080 prkei/promethues-wechatbot-webhook
 
 ```
 
