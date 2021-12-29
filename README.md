@@ -12,12 +12,19 @@ go build
 
 Change the `src/wechatbot.tmpl` `{{ define "wechatbot.url.api" }}https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YourKey{{end}}` the key=your wechat bot api key.
 
+Build with docker:
+```
+docker build  -t prometheus-wechatbot-webhook .
+```
+
+Or 
+
 Run As docker :
 ```
 docker run -d --name wechatbot --always=restart \
   -v /etc/localtime:/etc/localtime \
   -v src/wechatbot.tmpl:/apps/wechatbot.tmpl \
-  -p 9080:9080 lckei/promethues-wechatbot-webhook
+  -p 9080:9080 prkei/promethues-wechatbot-webhook
 
 ```
 
