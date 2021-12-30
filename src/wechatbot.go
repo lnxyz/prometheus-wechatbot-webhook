@@ -78,9 +78,9 @@ func main() {
 		}
 
 		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
 
 		if resp.StatusCode != 200 {
-			body, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
 				glog.Error(err)
 				w.WriteHeader(http.StatusBadRequest)
@@ -90,8 +90,9 @@ func main() {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write(body)
 		} else {
+
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("to wechatbot success!"))
+			w.Write(body)
 		}
 
 	})
