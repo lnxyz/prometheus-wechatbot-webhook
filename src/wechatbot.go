@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"text/template"
 	"time"
@@ -73,8 +74,26 @@ func main() {
 		resp, err := http.Post(wechatbotUrlBytes.String(), "application/json", responseBody)
 		if err != nil {
 			glog.Error(err)
+			return
 		}
+
 		defer resp.Body.Close()
+
+		if resp.StatusCode != 200 {
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				glog.Error(err)
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte(err.Error()))
+			}
+			glog.Error("Broken : ", string(body))
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write(body)
+		} else {
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("to wechatbot success!"))
+		}
+
 	})
 
 	http.ListenAndServe(":9080", nil)
